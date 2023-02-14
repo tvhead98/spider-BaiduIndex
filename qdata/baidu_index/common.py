@@ -68,6 +68,7 @@ def split_keywords(keywords: List) -> List[List[str]]:
     """
     一个请求最多传入5个关键词, 所以需要对关键词进行切分
     """
+    temp = [keywords[i*5: (i+1)*5] for i in range(math.ceil(len(keywords)/5))]
     return [keywords[i*5: (i+1)*5] for i in range(math.ceil(len(keywords)/5))]
 
 
@@ -130,9 +131,12 @@ def get_encrypt_json(
     }
 
     pre_url = pre_url_map[type]
+    # word_list = [
+    #     [{'name': keyword, 'wordType': 1} for keyword in keyword_list]
+    #     for keyword_list in keywords
+    # ]
     word_list = [
-        [{'name': keyword, 'wordType': 1} for keyword in keyword_list]
-        for keyword_list in keywords
+        [{'name': keyword_list, 'wordType': 1}] for keyword_list in keywords
     ]
     if type == 'live':
         request_args = {
